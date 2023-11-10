@@ -1,0 +1,61 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Create an Account </title>
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <link rel="stylesheet" href="/static/style1.css">
+   </head>
+<body>
+  
+  <div class="wrapper">
+    <h2>Create an Appointment</h2>
+
+          {% if msg1 %}
+          <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Error!</strong>{{ msg1 }}
+          </div>
+          {% endif %}
+          {% if msg %}
+          <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Success</strong>{{ msg }}
+          </div>
+          {% endif %}
+    <form action="{% url 'save_appointment' %}" method="post">
+      {% csrf_token%}
+      
+        <label for="doctor">Patient Name :</label>
+        <input type="text" name="patient" value="{{user.name}}">
+      
+      <div class="input-box">
+        <label for="doctor">Select Doctor:</label>
+        <select name="doctor" id="doctor" required>
+            {% for doc in doctors %}
+                <option value="{{ doc.name }}">{{ doc.name }}</option>
+            {% endfor %}
+        </select>
+      </div>Enter Suitable Date and Time
+      <div class="input-box">
+        <input type="date" name="date" min="{{ today|date:'Y-m-d' }}" placeholder="Enter Your Suitable Date" required><br>
+      </div>
+      <div class="input-box">
+        <input type="time" name="time" placeholder="Enter Suitable Time" required><br>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" style="background-color: #62d2a2;" value="Make Appointment">
+      </div>
+    </form>
+  
+</div>
+  
+</body>
+</html>
+
+{% endblock%}
