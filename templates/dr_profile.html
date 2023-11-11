@@ -1,0 +1,79 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Update Profile </title>
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <link rel="stylesheet" href="/static/style1.css">
+   </head>
+<body>
+  
+  <div class="wrapper">
+    <h2>Update Profile</h2>
+
+          {% if msg1 %}
+          <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Error!</strong>{{ msg1 }}
+          </div>
+          {% endif %}
+          {% if msg %}
+          <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Success</strong>{{ msg }}
+          </div>
+          {% endif %}
+    <form action="{% url 'dr_profile' %}" method="post">
+      {% csrf_token%}
+      <label for="name">Name : </label>
+      <div class="input-box">
+          <input type="text" name="name" value="{{doctor.name}}" readonly>
+        </div>
+        <label for="name">Specialization : </label>
+        <div class="input-box">
+            <input type="text" name="specialization" value="{{doctor.specialization}}" readonly>
+        </div>
+        <label for="name">Experince : </label>
+        <div class="input-box">
+            <input type="text" name="experience" value="{{doctor.experience}}" required>
+        </div>
+        <label for="education">Education : </label>
+        <div class="input-box">
+            <input type="text" name="education" value="{{doctor.education}}" readonly>
+        </div>
+        <label for="age">Age : </label>
+      <div class="input-box">
+        <input type="text" name="age" value="{{doctor.age}}" required>
+      </div>
+        <label for="phone">Mobile : </label>
+        <div class="input-box">
+            <input type="tel" name="phone" value="{{doctor.phone}}" readonly>
+        </div>
+        <label for="email">Email : </label>
+        <div class="input-box">
+            <input type="email" name="email" value="{{doctor.email}}" readonly>
+        </div>
+        <label for="address">Address : </label>
+      <div class="input-box">
+        <input type="text" name="address" value="{{doctor.address}}" required>
+      </div>
+      <div class="input-box">
+        <input type="file" name="profile_pic" value="{{doctor.profile_pic}}" required>
+      </div>
+
+      
+      
+      <div class="input-box button">
+        <input type="Submit" style="background-color: #62d2a2;" value="Update Profile">
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
+{% endblock%}
