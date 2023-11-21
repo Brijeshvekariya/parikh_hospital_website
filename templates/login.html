@@ -1,0 +1,99 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Login 06</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="/static/https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="/static/https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="/static/css1/style.css">
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			
+			<div class="row justify-content-center">
+				<div class="col-md-12 col-lg-7">
+					<div class="login-wrap">
+						{% if msg1 %}
+						<div class="alert alert-danger alert-dismissible fade show">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							<strong>Error!</strong>{{ msg1 }}
+						</div>
+						{% endif %}
+						{% if msg %}
+						<div class="alert alert-success alert-dismissible fade show">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							<strong>Success</strong>{{ msg }}
+						</div>
+						{% endif %}
+						<form action="{% url 'login' %}" class="signin-form d-md-flex" method="post">
+							{% csrf_token %}
+							<div class="half p-4 py-md-5">
+			      		<div class="w-100">
+			      			<h3 class="mb-4">Sign In</h3>
+			      		</div>
+			      		<div class="form-group mt-3">
+			      			<label class="label" for="name">Email</label>
+			      			<input type="text" name="email" class="form-control" placeholder="Email" required>
+			      		</div>
+		            <div class="form-group">
+		            	<label class="label" for="password">Password</label>
+		              <input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
+		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+		            </div>
+                    <div>
+						<div class="form-group d-md-flex">
+							<div class="w-50 text-left">
+							   <input style="color: #62d2a2;" type="checkbox" ></input>
+							   <label style="color: #62d2a2;">Remember me</label>
+										</div>
+										<div class="w-50 text-md-right" style="color: #62d2a2;">
+											<a href="{% url 'forgot_password'%}" style="color: #62d2a2;">Forgot Password</a>
+										</div>
+						</div>
+                        <div class="form-group">
+                            <button type="submit" class="form-control btn btn-secondary rounded submit px-3"> Sign me in now</button>
+                        </div>
+                    </div>
+					<div class="text-center">
+						New Patient ? 
+						<a href="{% url 'signup' %}">Create Account</a>
+					</div>
+		          </div>
+							<div class="half p-4 py-md-5 d-flex justify-content-center align-items-center" style="background-color: #62d2a2;" id>
+		          
+                         <div>
+                            <p class="w-100 text-center" style="color:white;">&mdash; Or Sign In With &mdash;</p>
+                            <div class="w-100">
+                                          <p class="social-media d-flex justify-content-center">
+                                              <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span>
+                                                <img src="/static/images1/facebook1.png" height="40" width="40" style="border-radius: 50%;"></span></a>
+                                              <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span ><img src="/static/images1/google.png" height="40" width="40" style="border-radius: 50%;"></span></a>
+                                          </p>
+                                      </div>
+                         </div>
+		                  </div>
+	          </form>
+	        </div>
+	      </div>
+			</div>
+		</div>
+	</section>
+
+	<script src="/static/js1/jquery.min.js"></script>
+  <script src="/static/js1/popper.js"></script>
+  <script src="/static/js1/bootstrap.min.js"></script>
+  <script src="/static/js1/main.js"></script>
+
+	</body>
+</html>
+
+{% endblock%}
