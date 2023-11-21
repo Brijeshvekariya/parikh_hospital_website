@@ -1,0 +1,63 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Create an Account </title>
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <link rel="stylesheet" href="/static/style1.css">
+   </head>
+<body>
+  
+  <div class="wrapper">
+    <h2>Create an Account</h2>
+
+          {% if msg1 %}
+          <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Error!</strong>{{ msg1 }}
+          </div>
+          {% endif %}
+          {% if msg %}
+          <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Success</strong>{{ msg }}
+          </div>
+          {% endif %}
+    <form action="{% url 'signup' %}" method="post">
+      {% csrf_token%}
+      <div class="input-box">
+        <input type="text" name="name" placeholder="Enter your name" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-box">
+        <input type="tel" name="mobile" placeholder="Enter your mobile" required>
+      </div>
+      <div class="input-box">
+        <input type="password" name="password" placeholder="Create password" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="cpassword" placeholder="Confirm password" required>
+      </div>
+      <div class="policy">
+        <input type="checkbox" required>
+        <h3>I accept all terms & condition</h3>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" style="background-color: #62d2a2;" value="Register Now">
+      </div>
+      <div class="text">
+        <h3>Already have an account? <a href="{% url 'login' %}">Login now</a></h3>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
+{% endblock%}

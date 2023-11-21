@@ -1,0 +1,86 @@
+{% extends 'dr_header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Pending Appointments</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        h2{
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <section class="about_section layout_padding" style="background-color: white;">
+        <div class="container  ">
+            <h2>Pending Today's Appointments</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient Name </th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Time </th>
+                        <th>Action</th>
+                        <th>Update Profile</th>
+                    </tr>
+                </thead>
+                <form method="post" action="{% url 'today_app' %}">
+                    {% csrf_token%}
+                <tbody>
+                    {% for i in appointments %}
+                    <tr>
+                        <td>{{ i.patient.name}}</td>
+                        <td>{{ i.date }}</td>
+                        <td>{{ i.time }}</td>
+                        {% if not i.check_app %}
+                        <td>
+                            <input type="hidden" name="appointment_id" value="{{ i.id }}">
+                            <button type="submit">Accept</button>
+                          </td>
+                        <td><button onclick="location.href='{% url 'user_profile'%}'">Profile</button>
+                        {% else %}
+                        <td>Completed</td>
+                        <td><button onclick="location.href='{% url 'user_profile'%}'">View Profile</button>
+                        {% endif %}
+
+
+                    </tr>
+                   
+                    {% endfor %}
+                </tbody>
+            </form>
+            </table>
+        </div>
+    </section>
+
+</body>
+</html>
+{% endblock %}
