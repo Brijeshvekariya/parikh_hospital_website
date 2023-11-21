@@ -1,0 +1,67 @@
+{% extends 'dr_header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Create an Account </title>
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <link rel="stylesheet" href="/static/style1.css">
+   </head>
+<body>
+  
+  <div class="wrapper">
+    <h2>Patient Details</h2>
+
+          {% if msg1 %}
+          <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Error!</strong>{{ msg1 }}
+          </div>
+          {% endif %}
+          {% if msg %}
+          <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Success</strong>{{ msg }}
+          </div>
+          {% endif %}
+    <form action="{% url 'user_profile' %}" method="post">
+      {% csrf_token%}
+      <div class="input-box">
+        <input type="text" name="name" value="{{user}}" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="age" placeholder="Enter Patient Age" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="disease" placeholder="Enter Patient Disease " required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="diagnosis" placeholder="Enter Patient Diagnosis" required>
+      </div>
+      <div class="input-box">
+        <select style="width: 360px; height: 40px; margin-top: 5px;" name="gender" id="">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+      </div>
+      <div class="input-box">
+        <input type="text" name="address" placeholder="Enter Patient Address" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="city" placeholder="Enter Pateint City" required>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" style="background-color: #62d2a2;" value="Submit Details">
+      </div>
+    </form>
+  </div>
+  </section>
+
+</body>
+</html>
+{% endblock %}
