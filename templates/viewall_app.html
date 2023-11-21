@@ -1,0 +1,93 @@
+{% extends 'dr_header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's All Appointments</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        h2{
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <section class="about_section layout_padding" style="background-color: white;">
+        <div class="container  ">
+            <h2>All Appointments </h2>
+            {% if appointments %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient Name </th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Time </th>
+                        <th>Action</th>
+                        <th>Update Profile</th>
+                        <th>Check Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in appointments %}
+                    {% if i.check_app %}
+                    <tr>
+                        <td>{{ i.patient.name}}</td>
+                        <td>{{ i.date }}</td>
+                        <td>{{ i.time }}</td>
+                        <td><button onclick="location.href=''">Accepted</button>
+                        <td><button onclick="location.href='{% url 'user_profile'% pk=i.pk}' ">Edit Profile</button>
+                        <td><button onclick="location.href='{% url 'dr_patient_profile' pk=i.pk %}'">View Profile</button>
+
+
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>{{ i.patient.name}}</td>
+                        <td>{{ i.date }}</td>
+                        <td>{{ i.time }}</td>
+                        <td><button onclick="location.href='{% url 'check_app'%} '">Accept</button>
+
+
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <br><br>
+            <center>
+            <h4>No Appointments</h4>
+        </center>
+            {% endif %}
+        </div>
+    </section>
+
+</body>
+</html>
+{% endblock %}
