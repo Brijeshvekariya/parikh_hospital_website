@@ -31,16 +31,16 @@
     <form action="{% url 'user_profile' %}" method="post">
       {% csrf_token%}
       <div class="input-box">
-        <input type="text" name="name" value="{{user}}" required>
-      </div>
-      <div class="input-box">
-        <input type="text" name="age" placeholder="Enter Patient Age" required>
+        <input type="text" name="patient_name" value="{{appoint.patient}}" required>
       </div>
       <div class="input-box">
         <input type="text" name="disease" placeholder="Enter Patient Disease " required>
       </div>
       <div class="input-box">
         <input type="text" name="diagnosis" placeholder="Enter Patient Diagnosis" required>
+      </div>
+      <div class="input-box">
+        <input type="number" name="age" placeholder="Enter Patient Age" required>
       </div>
       <div class="input-box">
         <select style="width: 360px; height: 40px; margin-top: 5px;" name="gender" id="">
