@@ -1,4 +1,4 @@
-{% extends 'header.html' %}
+{% extends 'dr_header.html' %}
 {% load static %}
 {% block content %}
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
             <strong>Success</strong>{{ msg }}
           </div>
           {% endif %}
-    <form action="{% url 'dr_profile' %}" method="post">
+    <form action="{% url 'dr_profile' %}" method="post" enctype="multipart/form-data">
       {% csrf_token%}
       <label for="name">Name : </label>
       <div class="input-box">
@@ -63,7 +63,11 @@
         <input type="text" name="address" value="{{doctor.address}}" required>
       </div>
       <div class="input-box">
-        <input type="file" name="profile_pic" value="{{doctor.profile_pic}}" required>
+        <input type="file" name="profile_pic"  required>
+      </div>
+      <div class="input-box">
+        <img src="{{doctor.profile_pic.url}}" height="50px" width="50px" alt="">
+        
       </div>
 
       
