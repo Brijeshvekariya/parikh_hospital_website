@@ -18,8 +18,15 @@ urlpatterns = [
     path('verify_otp/', views.verify_otp, name="verify_otp"),
     path('new_password/', views.new_password, name="new_password"),
     path('change_password/', views.change_password, name="change_password"),
-    path('user_profile/', views.user_profile, name="user_profile"),
     path('dr_index/', views.dr_index, name="dr_index"),
     path('dr_profile/', views.dr_profile, name="dr_profile"),
+    path('check_appointment/', views.check_appointment, name="check_appointment"),
+    path('check_app/<int:pk>/', views.check_app, name="check_app"),
+    path('today_app/', views.today_app, name="today_app"),
+    path('todays_patient/', views.todays_patient, name="todays_patient"),
+    path('viewall/', views.viewall, name="viewall"),
+    path('patient_name/', views.patient_name, name="patient_name"),
+    path('user_profile/', views.user_profile, name="user_profile"),
+    path('dr_patient_profile/',views.dr_patient_profile, name='dr_patient_profile'),
 
 ]

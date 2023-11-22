@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from . models import Contact,User,Doctor,profile,appointment
+from django.shortcuts import render,redirect
+from . models import Contact,User,Doctor,appointment,patient_profile
 import random,requests
 from datetime import datetime
 
@@ -33,7 +33,7 @@ def login(request):
             request.session['email'] = user.email
             request.session['name'] = user.name
             msg = " Login Successfull ! "
-            return render(request,'appointment.html',{'msg':msg})
+            return redirect('create_appointment')
         except:
             try:
                 doctor = Doctor.objects.get(
@@ -111,7 +111,7 @@ def verify_otp(request):
             return render(request,'new_password.html',{'mobile':mobile})
         else:
             msg1=" Enter Valid Otp !"
-            return render(request,'verify_otp',{'msg1':msg1})
+            return render(request,'verify_otp.html',{'msg1':msg1})
     else:
         return render(request,'verify_otp.html')
     
@@ -158,28 +158,7 @@ def change_password(request):
     else:
         return render(request,'change_password.html')
 
-def user_profile(request):
-    doctor = Doctor.objects.get(name=request.session['name'])   # why name ma error aavi
-    if request.method=="POST":
-        user = User.objects.get(name = request.POST['name'])
-        if user:
-            profile.objects.create(
-                doctor = doctor,
-                user = user,
-                age = request.POST['age'],
-                disease = request.POST['disease'],
-                daignosis = request.POST['diagnosis'],
-                gender = request.POST['gender'],
-                address = request.POST['address'],
-                city = request.POST['city'],
-            )
-            msg = " Profile Updated Successfully"
-            return render(request,'dr_index.html',{'msg':msg})
-        else:
-            msg1=" No Patient Found !"
-            return render(request,'profile.html',{'msg1':msg1})
-    else:
-        return render(request,'profile.html')
+
     
 # def patient_list(request):
 
@@ -214,7 +193,7 @@ def save_appointment(request):
         try:
             patient = User.objects.get(name=patient_username)
             doctor = Doctor.objects.get(name=doctor_name)
-            appointment.objects.get(patient=patient)
+            appointment.objects.get(patient=patient, doctor=doctor, date=date, time = time)
             msg1 = " Your Appointment is already booked!"
             return render(request, 'appointment.html', {'msg1': msg1})
         except appointment.DoesNotExist:
@@ -229,6 +208,7 @@ def save_appointment(request):
     else:
         return render(request, 'appointment.html')
     
+
 def dr_profile(request):
     doctor = Doctor.objects.get(email = request.session['email'])
     if request.method=="POST":
@@ -241,7 +221,7 @@ def dr_profile(request):
         doctor.email = request.POST['email']
         doctor.address = request.POST['address']
         try:
-            doctor.profile_pic = request.FILE['profile_pic']
+            doctor.profile_pic = request.FILES['profile_pic']
         except:
             pass
         doctor.save()
@@ -250,3 +230,89 @@ def dr_profile(request):
     else:
         return render(request,'dr_profile.html',{'doctor':doctor})
 
+def check_appointment(request):
+    doctor = Doctor.objects.get(email = request.session['email'])
+    appointments = appointment.objects.filter(doctor = doctor).order_by('date')
+    nopending = all(appointment.check_app for appointment in appointments)
+    
+    return render(request,'check_appointment.html',{'appointments':appointments,'nopending':nopending})
+
+def check_app(request,pk):
+    doctor = Doctor.objects.get(email = request.session['email'])
+    if request.method=='POST':
+        appoint = appointment.objects.get(pk=pk)
+        appoint.check_app = True
+        appoint.save()
+    appointments = appointment.objects.filter(doctor = doctor).order_by('date')
+    nopending = all(appointment.check_app for appointment in appointments)
+    return render(request,'check_appointment.html',{'appointments':appointments,'nopending':nopending,'appoint':appoint})
+
+def today_app(request):
+    doctor = Doctor.objects.get(email = request.session['email'])
+    if request.method=='POST':
+        appointment_id = (request.POST['appointment_id']),
+        appoint = appointment.objects.get(id = appointment_id)
+        appoint.check_app = True
+        appoint.save()
+    today = datetime.now().strftime('%Y-%m-%d')
+    appointments = appointment.objects.filter(doctor = doctor,date = today).order_by('time')
+    
+    
+    return render(request,'today_appointment.html',{'appointments':appointments})
+
+def todays_patient(request):
+    today = datetime.now().strftime('%Y-%m-%d')
+    doctor = Doctor.objects.get(email = request.session['email'])
+    appointments = appointment.objects.filter(doctor = doctor, date = today).order_by('time')
+    return render(request,'today_appointment.html',{'appointments':appointments})
+
+def viewall(request):
+    doctor = Doctor.objects.get(email = request.session['email'])
+    appointments = appointment.objects.filter(doctor = doctor).order_by('date')
+    return render(request,'viewall_app.html',{'appointments':appointments})
+
+def patient_name(request):
+    doctor = Doctor.objects.get(email = request.session['email'])
+    appoint = appointment.objects.get(id = request.POST['app_id'])
+    return render(request,"profile.html",{'appoint':appoint})
+
+
+def user_profile(request):
+    doctor = Doctor.objects.get(email=request.session['email'])
+
+    if request.method == "POST":
+        # Check if 'patient_name' exists in request.POST before accessing it
+        if 'patient_name' in request.POST:
+            patient_name = request.POST['patient_name']  # If 'patient_name' exists, retrieve its value
+
+            # Fetching the user instance based on the patient's name
+            patient_user = User.objects.get(name=patient_name)
+
+            # Fetching the appointment instance related to the patient
+            appointment_instance = appointment.objects.get(patient=patient_user, doctor=doctor)
+
+            # Check if 'age' exists in request.POST before accessing it
+            if 'age' in request.POST:
+                patient_age = request.POST['age']  # If 'age' exists, retrieve its value
+                # Creating a patient profile instance with the age provided
+                patient_profile.objects.create(
+                    patient=appointment_instance,
+                    doctor=doctor,
+                    age=patient_age,  # Assigning the age value
+                )
+                msg = "Profile Updated Successfully"
+                return render(request, 'dr_index.html', {'patient_name': patient_name})
+            else:
+                # Handle the case where 'age' is not present in the form data
+                error_msg = "Age is missing in the form data."
+                return render(request, 'login.html', {'error_msg': error_msg})
+        else:
+            # Handle the case where 'patient_name' is not present in the form data
+            error_msg = "'patient_name' is missing in the form data."
+            return render(request, 'about.html', {'error_msg': error_msg})
+    else:
+        return render(request, 'profile.html')
+def dr_patient_profile(request,pk):
+
+    patient = patient_profile.objects.get(pk=pk)
+    return render(request,'dr_patient_profile.html',{'patient' : patient})

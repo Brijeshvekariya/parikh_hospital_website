@@ -39,9 +39,23 @@ class Doctor(models.Model):
 
 
 
-class profile(models.Model):
+    
+class appointment(models.Model):
+    patient = models.ForeignKey(User,on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor,on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    time = models.TimeField()
+    check_app = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.patient.name
+
+    
+
+class patient_profile(models.Model):
+    patient = models.ForeignKey(appointment,on_delete=models.CASCADE, default=True)
+    doctor = models.ForeignKey(Doctor,on_delete=models.CASCADE)
     disease = models.TextField()
     daignosis = models.TextField()
     age = models.PositiveSmallIntegerField(default=None)
@@ -50,14 +64,4 @@ class profile(models.Model):
     city = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.user.name
-    
-class appointment(models.Model):
-    patient = models.ForeignKey(User,on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor,on_delete=models.CASCADE)
-    date = models.DateField()
-    time = models.TimeField()
-
-
-    def __str__(self):
-        return self.patient.name
+        return self.patient.patient.name
