@@ -61,8 +61,8 @@
                         <td>{{ i.date }}</td>
                         <td>{{ i.time }}</td>
                         <td><button onclick="location.href=''">Accepted</button>
-                        <td><button onclick="location.href='{% url 'user_profile'% pk=i.pk}' ">Edit Profile</button>
-                        <td><button onclick="location.href='{% url 'dr_patient_profile' pk=i.pk %}'">View Profile</button>
+                        <td><button onclick="location.href='{% url 'user_profile'% }' ">Edit Profile</button>
+                        <td><button onclick="location.href='{% url 'dr_patient_profile'%}'">View Profile</button>
 
 
                     </tr>
@@ -71,7 +71,7 @@
                         <td>{{ i.patient.name}}</td>
                         <td>{{ i.date }}</td>
                         <td>{{ i.time }}</td>
-                        <td><button onclick="location.href='{% url 'check_app'%} '">Accept</button>
+                        <td><button onclick="location.href='{% url 'check_app' pk=i.pk %} '">Accept</button>
 
 
                     </tr>
