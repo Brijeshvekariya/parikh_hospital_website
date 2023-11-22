@@ -39,10 +39,10 @@
 </head>
 <body>
     <section class="about_section layout_padding" style="background-color: white;">
-        <div class="container  ">
+        <div class="container">
             <h2>Pending Appointments</h2>
-
             <table>
+                {% if not nopending %}
                 <thead>
                     <tr>
                         <th>Patient Name </th>
@@ -51,24 +51,39 @@
                         <th>Action</th>
                         <th>Update Profile</th>
                     </tr>
-                </thead>
+                </thead> 
+               
                 <tbody>
                     {% for i in appointments %}
-                    <tr>
-                        <td>{{ i.patient.name}}</td>
-                        <td>{{ i.date }}</td>
-                        <td>{{ i.time }}</td>
-                        <td><button onclick="location.href='{% url 'dr_index'%} '">Accept</button>
-                        <td><button onclick="location.href='{% url 'user_profile'%}'">Profile</button>
-
-
-                    </tr>
+                        {% if not i.check_app %}
+                            <tr>
+                                <td>{{ i.patient }}</td>
+                                <td>{{ i.date }}</td>
+                                <td>{{ i.time }}</td>
+                                <td>
+                                    <form action="{% url 'check_app' pk=i.pk %}" method="post">
+                                        {%csrf_token%}
+                                        <button type="submit" >Accept</button>
+                                    </form></td>
+                                </td>
+                            </td>
+                            <td>
+                                <form action="{% url 'patient_name' %}" method="post">
+                                    {%csrf_token%}
+                                    <input type="hidden" name="app_id" value="{{i.id}}">
+                                    <button type="submit" >Profile</button>
+                                </form></td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
+                
+                {% else %}
+                <p><h4> No Pending Appointments </h4></p>
+                {% endif %}
             </table>
         </div>
     </section>
-
 </body>
 </html>
 {% endblock %}
