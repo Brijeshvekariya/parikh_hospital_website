@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from . models import Contact,User,Doctor,appointment,patient_profile
 import random,requests
 from datetime import datetime
+from django.conf import settings
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
@@ -34,6 +36,7 @@ def login(request):
             request.session['name'] = user.name
             msg = " Login Successfull ! "
             return redirect('create_appointment')
+
         except:
             try:
                 doctor = Doctor.objects.get(
@@ -58,14 +61,23 @@ def signup(request):
             return render(request,'login.html',{'msg1':msg1})
         except:
             if request.POST['password'] == request.POST['cpassword']:
-                user=User.objects.create(
-                    name = request.POST['name'],
-                    email = request.POST['email'],
-                    mobile = request.POST['mobile'],
-                    password = request.POST['password'],
+                name = request.POST['name']
+                email = request.POST['email']
+                mobile = request.POST['mobile']
+                password = request.POST['password']
+                subject = "Thank You for Registering with Us!"
+                message = f"Dear {name},\n\n\tWe wanted to extend our heartfelt gratitude for choosing to register with us! Your decision to join our community means a lot to us. We are thrilled to have you on board and look forward to providing you with an exceptional experience. \n\n\tThank you for placing your trust in us. Should you have any questions or need assistance, please don not hesitate to reach out. We're here to ensure your journey with us is seamless and enjoyable. \n\n\tOnce again, thank you for becoming a part of Parikh Hospital. We cannot wait to begin this exciting journey together! \n\nWarm regards, \nParikh Hospital"
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [email]
+                send_mail( subject, message, email_from, recipient_list )
+                User.objects.create(
+                    name = name,
+                    email = email,
+                    mobile = mobile,
+                    password = password,
                 )
                 msg = " Account Created Succesfully ! "
-                return render(request,'login.html',{'msg':msg})
+                return render(request,'login.html',{'email':email,'msg':msg})
             else:
                 msg1 = " Password and Confirm Password deos not match"
                 return render(request,'signup.html',{'msg1':msg1})
