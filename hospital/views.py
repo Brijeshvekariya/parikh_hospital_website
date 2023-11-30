@@ -283,6 +283,7 @@ def viewall(request):
     appointments = appointment.objects.filter(doctor = doctor).order_by('date')
     return render(request,'viewall_app.html',{'appointments':appointments})
 
+
 def patient_name(request):
     doctor = Doctor.objects.get(email = request.session['email'])
     appoint = appointment.objects.get(id = request.POST['app_id'])
@@ -293,38 +294,61 @@ def user_profile(request):
     doctor = Doctor.objects.get(email=request.session['email'])
 
     if request.method == "POST":
-        # Check if 'patient_name' exists in request.POST before accessing it
-        if 'patient_name' in request.POST:
-            patient_name = request.POST['patient_name']  # If 'patient_name' exists, retrieve its value
-
-            # Fetching the user instance based on the patient's name
-            patient_user = User.objects.get(name=patient_name)
-
-            # Fetching the appointment instance related to the patient
-            appointment_instance = appointment.objects.get(patient=patient_user, doctor=doctor)
-
-            # Check if 'age' exists in request.POST before accessing it
-            if 'age' in request.POST:
-                patient_age = request.POST['age']  # If 'age' exists, retrieve its value
-                # Creating a patient profile instance with the age provided
-                patient_profile.objects.create(
-                    patient=appointment_instance,
-                    doctor=doctor,
-                    age=patient_age,  # Assigning the age value
-                )
-                msg = "Profile Updated Successfully"
-                return render(request, 'dr_index.html', {'patient_name': patient_name})
-            else:
-                # Handle the case where 'age' is not present in the form data
-                error_msg = "Age is missing in the form data."
-                return render(request, 'login.html', {'error_msg': error_msg})
-        else:
-            # Handle the case where 'patient_name' is not present in the form data
-            error_msg = "'patient_name' is missing in the form data."
-            return render(request, 'about.html', {'error_msg': error_msg})
+        appoint_id = request.POST['appoint_id']
+        appointer = appointment.objects.get(id = appoint_id)
+        patient = request.POST['patient_name']  # If 'patient_name' exists, retrieve its value
+        disease = request.POST['disease']
+        diagnosis = request.POST['diagnosis']
+        age = request.POST['age']
+        gender = request.POST['gender']
+        address = request.POST['address']
+        city = request.POST['city']
+        patient_profile.objects.create(
+            patient = appointer,
+            doctor = doctor, 
+            disease = disease,
+            daignosis = diagnosis,
+            age = age,
+            gender = gender,
+            address = address,
+            city = city,
+        )
+        msg = "profile saved Successfully !"
+        if appoint_id:
+            appoint = appointment.objects.get(id = appoint_id)
+            appoint.check_app = True
+            appoint.save()
+        appointments = appointment.objects.filter(doctor = doctor).order_by('date')
+        nopending = all(appointment.check_app for appointment in appointments)
+        return render(request,'check_appointment.html',{'appointments':appointments,'nopending':nopending,'appoint':appoint})
     else:
         return render(request, 'profile.html')
-def dr_patient_profile(request,pk):
+def patient_viewprofile(request,pk):
+    appt = appointment.objects.get(pk=pk)
+    patient = patient_profile.objects.get(patient=appt)
+    return render(request,'patient_viewprofile.html',{'patient' : patient})
 
-    patient = patient_profile.objects.get(pk=pk)
-    return render(request,'dr_patient_profile.html',{'patient' : patient})
+def patient_editprofile(request,pk):
+    appt = appointment.objects.get(pk=pk)
+    patient = patient_profile.objects.get(patient=appt)
+    return render(request,'patient_editprofile.html',{"patient":patient})
+    
+def patient_save(request):
+    patient_id = request.POST['id']
+    patient = patient_profile.objects.get(id = patient_id)
+    if patient:
+        if request.method=="POST":
+            patient.disease = request.POST['disease']
+            patient.daignosis = request.POST['diagnosis']
+            patient.age = request.POST['age']
+            patient.gender = request.POST['gender']
+            patient.address = request.POST['address']
+            patient.city = request.POST['city']
+            patient.save()
+            msg = "Profile Updated Successfully"
+            return render(request,'patient_editprofile.html',{"msg":msg})
+        else:
+            return render(request,'patient_editprofile.html')
+
+
+# done project !

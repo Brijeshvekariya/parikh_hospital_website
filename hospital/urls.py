@@ -27,6 +27,8 @@ urlpatterns = [
     path('viewall/', views.viewall, name="viewall"),
     path('patient_name/', views.patient_name, name="patient_name"),
     path('user_profile/', views.user_profile, name="user_profile"),
-    path('dr_patient_profile/',views.dr_patient_profile, name='dr_patient_profile'),
+    path('patient_viewprofile/<int:pk>/',views.patient_viewprofile, name='patient_viewprofile'),
+    path('patient_editprofile/<int:pk>/',views.patient_editprofile, name='patient_editprofile'),
+    path('patient_save/', views.patient_save, name="patient_save"),
 
 ]
