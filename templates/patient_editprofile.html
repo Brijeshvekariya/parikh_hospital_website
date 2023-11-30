@@ -1,0 +1,61 @@
+{% extends 'dr_header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Create an Account </title>
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <link rel="stylesheet" href="/static/style1.css">
+   </head>
+<body>
+  
+  <div class="wrapper">
+    <h2>Patient Details</h2>
+
+    <form action="{% url 'patient_save' %}" method="post">
+      {% csrf_token%}
+      <div class="input-box">
+
+          <input type="hidden" name="id" value="{{patient.id}}">
+        <input type="text" name="name" value="{{patient.patient}}" readonly>
+      </div>
+      <div class="input-box">
+        <input type="text" name="age" value="{{patient.age}}" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="disease" value="{{patient.disease}}" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="diagnosis" value="{{patient.daignosis}}" required>
+      </div>
+      <div class="input-box">
+        <select style="width: 360px; height: 40px; margin-top: 5px;" name="gender" id="">
+            {% if patient.gender == "Male" %}
+            <option value="Male" selected>Male</option>
+            <option value="Female">Female</option>
+            {% else %}
+            <option value="Male" >Male</option>
+            <option value="Female" selected>Female</option>
+            {% endif%}
+        </select>
+      </div>
+      <div class="input-box">
+        <input type="text" name="address" value="{{patient.address}}" required>
+      </div>
+      <div class="input-box">
+        <input type="text" name="city" value="{{patient.city}}" required>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" style="background-color: #62d2a2;" value="Update Profile">
+      </div>
+    </form>
+  </div>
+  </section>
+
+</body>
+</html>
+{% endblock %}

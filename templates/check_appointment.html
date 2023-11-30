@@ -61,8 +61,9 @@
                                 <td>{{ i.date }}</td>
                                 <td>{{ i.time }}</td>
                                 <td>
-                                    <form action="{% url 'check_app' pk=i.pk %}" method="post">
+                                    <form action="{% url 'patient_name' %}" method="post">
                                         {%csrf_token%}
+                                        <input type="hidden" name="app_id" value="{{i.id}}">
                                         <button type="submit" >Accept</button>
                                     </form></td>
                                 </td>

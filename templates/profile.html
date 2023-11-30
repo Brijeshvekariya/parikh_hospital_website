@@ -31,7 +31,8 @@
     <form action="{% url 'user_profile' %}" method="post">
       {% csrf_token%}
       <div class="input-box">
-        <input type="text" name="patient_name" value="{{appoint.patient}}" required>
+        <input type="hidden" name="appoint_id" value="{{appoint.id}}" required>
+        <input type="text" name="patient_name" value="{{appoint}}" required>
       </div>
       <div class="input-box">
         <input type="text" name="disease" placeholder="Enter Patient Disease " required>
