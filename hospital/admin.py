@@ -11,3 +11,6 @@ admin.site.register(User)
 admin.site.register(Doctor)
 admin.site.register(appointment)
 admin.site.register(patient_profile)
+
+
+
