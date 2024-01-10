@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #62d2a2;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+    .custom-header {
+      background-color: #62d2a2;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <div class="custom-header">
+            <div class="left-side">
+              <img src="/static/images/main_logo.png" alt="Logo" style="height: 40px; width: auto;">
+              
+            </div>
+            <div class="right-side">
+                <a href="{% url 'admin_logout' %}" class="btn btn-danger">Logout</a>
+              </div>
+              
+          </div>
+    </header>
+
+    <nav class="navbar navbar-inverse visible-xs">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+        </button>
+        <a class="navbar-brand" href="#">Parikh Hospital</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/admin">Dashboard</a></li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Doctors</a></li>
+            <li><a href="#">Appointment</a></li>
+            <li><a href="#">Patient Profile</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        </div>
+    </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-3 sidenav hidden-xs">
+                <h2>Parikh Hospital</h2>
+                <ul class="nav nav-pills nav-stacked">
+                    {% if flag %}
+                    <li class="active"><a href="/admin">Dashboard</a></li>
+                    <li><a href="{% url 'admin_users' %}">Users</a></li>
+                    <li><a href="{% url 'admin_doctors' %}">Doctors</a></li>
+                    <li><a href="{% url 'admin_appointments' %}">Appointment</a></li>
+                    <li><a href="{% url 'admin_profiles' %}">Patient Profile</a></li>
+                    <li><a href="{% url 'admin_contacts' %}">Contact</a></li>
+                </ul><br>
+                
+            </div><br>
+
+            <div class="col-sm-9">
+            <div class="well">
+                <h4>Dashboard</h4>
+                <p>Some text..</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                <div class="well">
+                    <h4>Users</h4>
+                    <p>1 Million</p> 
+                </div>
+                </div>
+                <div class="col-sm-3">
+                <div class="well">
+                    <h4>Pages</h4>
+                    <p>100 Million</p> 
+                </div>
+                </div>
+                <div class="col-sm-3">
+                <div class="well">
+                    <h4>Sessions</h4>
+                    <p>10 Million</p> 
+                </div>
+                </div>
+                <div class="col-sm-3">
+                <div class="well">
+                    <h4>Bounce</h4>
+                    <p>30%</p> 
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                <div class="well">
+                    <p>Text</p> 
+                    <p>Text</p> 
+                    <p>Text</p> 
+                </div>
+                </div>
+                <div class="col-sm-4">
+                <div class="well">
+                    <p>Text</p> 
+                    <p>Text</p> 
+                    <p>Text</p> 
+                </div>
+                </div>
+                <div class="col-sm-4">
+                <div class="well">
+                    <p>Text</p> 
+                    <p>Text</p> 
+                    <p>Text</p> 
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                <div class="well">
+                    <p>Text</p> 
+                </div>
+                </div>
+                <div class="col-sm-4">
+                <div class="well">
+                    <p>Text</p> 
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% elif doctor %}
+        <li ><a href="/admin">Dashboard</a></li>
+        <li ><a href="{% url 'admin_users' %}">Users</a></li>
+        <li class="active"><a href="{% url 'admin_doctors' %}">Doctors</a></li>
+        <li><a href="{% url 'admin_appointments' %}">Appointment</a></li>
+        <li><a href="{% url 'admin_profiles' %}">Patient Profile</a></li>
+        <li><a href="{% url 'admin_contacts' %}">Contact</a></li>
+    </ul><br>
+      
+</div>
+<br>
+
+<div class="col-sm-9">
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th style="align-items: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in doctor %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><b>{{i}}</b></td>
+                    <td>
+                        
+                        <a class="waves-effect waves-light btn edit-modal-trigger" style="background-color: #62d2a2;" href="#modal-{{forloop.counter}}"><i class="material-icons">edit</i></a>
+                        <a class="waves-effect waves-light btn " style="background-color: red;" href="{% url 'delete_doctor' pk=i.pk %}"><i class="material-icons">delete</i></a>
+                        <div id="modal-{{forloop.counter}}" class="modal">
+                            <div class="modal-content">
+                              <h4>Modal Header</h4>
+                              <p></p>
+                            </div>
+                            <div class="modal-footer">
+                              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                            </div>
+                          </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+{% elif appoint %}
+        <li ><a href="/admin">Dashboard</a></li>
+        <li ><a href="{% url 'admin_users' %}">Users</a></li>
+        <li><a href="{% url 'admin_doctors' %}">Doctors</a></li>
+        <li class="active"><a href="#section3">Appointment</a></li>
+        <li><a href="{% url 'admin_profiles' %}">Patient Profile</a></li>
+        <li><a href="{% url 'admin_contacts' %}">Contact</a></li>
+    </ul><br>
+      
+</div>
+<br>
+
+<div class="col-sm-9">
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in appoint %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><b>{{i}}</b></td>
+                    <td>
+                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+{% elif profile %}
+        <li ><a href="/admin">Dashboard</a></li>
+        <li ><a href="{% url 'admin_users' %}">Users</a></li>
+        <li><a href="{% url 'admin_doctors' %}">Doctors</a></li>
+        <li><a href="{% url 'admin_appointments' %}">Appointment</a></li>
+        <li class="active"><a href="{% url 'admin_profiles' %}">Patient Profile</a></li>
+        <li><a href="{% url 'admin_contacts' %}">Contact</a></li>
+    </ul><br>
+      
+</div>
+<br>
+
+<div class="col-sm-9">
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in profile %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><b>{{i}}</b></td>
+                    <td>
+                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+{% elif people %}
+        <li ><a href="/admin">Dashboard</a></li>
+        <li ><a href="{% url 'admin_users' %}">Users</a></li>
+        <li><a href="{% url 'admin_doctors' %}">Doctors</a></li>
+        <li><a href="{% url 'admin_appointments' %}3">Appointment</a></li>
+        <li><a href="{% url 'admin_profiles' %}">Patient Profile</a></li>
+        <li class="active"><a href="{% url 'admin_contacts' %}">Contact</a></li>
+    </ul><br>
+      
+</div>
+<br>
+
+<div class="col-sm-9">
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in people %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><b>{{i}}</b></td>
+                    <td>
+                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+{% elif user %}
+        <li ><a href="/admin">Dashboard</a></li>
+        <li class="active"><a href="{% url 'admin_users' %}">Users</a></li>
+        <li ><a href="{% url 'admin_doctors' %}">Doctors</a></li>
+        <li><a href="{% url 'admin_appointments' %}">Appointment</a></li>
+        <li><a href="{% url 'admin_profiles' %}">Patient Profile</a></li>
+        <li><a href="{% url 'admin_contacts' %}">Contact</a></li>
+        </ul><br>
+
+        </div>
+        <br>
+
+        <div class="col-sm-9">
+        <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in user %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><b>{{i}}</b></td>
+                    <td>
+                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+{% endfor %}
+        <!-- Add more rows as needed -->
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+{% endif %}
+
+  
+</body>
+</html>    

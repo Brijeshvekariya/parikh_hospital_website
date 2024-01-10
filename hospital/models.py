@@ -65,3 +65,4 @@ class patient_profile(models.Model):
 
     def __str__(self):
         return self.patient.patient.name
+
